@@ -27,48 +27,48 @@
 
     </android.support.design.widget.TabLayout>
 
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="7">
+
+
+
+
+
+
 
     <android.support.v4.view.ViewPager
+        android:id="@+id/viewpaper_id"
         android:layout_width="match_parent"
 
-        android:layout_height="0dp"
-        android:layout_weight="7"
-        android:id="@+id/viewpaper_id"
-        >
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true">
 
 
     </android.support.v4.view.ViewPager>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:orientation="horizontal"
-    android:layout_weight="1">
+</RelativeLayout>
 
-
-    <EditText
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+    <Button
         android:layout_width="0dp"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_gravity="center"
-        android:gravity="left"
-
         android:layout_weight="1"
-        android:id="@+id/txtCripto"
-        android:enabled="false"
-        android:layout_height="wrap_content" />
+        android:onClick="btnEncriptar"
+        android:layout_height="wrap_content"
+        android:text="Encriptar"/>
 
-<android.support.design.widget.FloatingActionButton
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_gravity="bottom|end"
-    android:layout_marginBottom="10dp"
-    android:id="@+id/btn_flo"
-    android:onClick="Cripto"
-    android:layout_marginRight="10dp"
-    android:layout_marginTop="10dp"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:onClick="btnDesenciptar"
+            android:layout_height="wrap_content"
+            android:text="Desenciptar"/>
 
 
-</LinearLayout>
-
+    </LinearLayout>
 </LinearLayout>

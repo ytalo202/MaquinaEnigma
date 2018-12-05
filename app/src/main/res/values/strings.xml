@@ -1,4 +1,7 @@
 <resources>
-    <string name="app_name">MaquinaEnigma</string>
+    <string name="app_name">Enigmapp</string>
     <string name="title_activity_enigma_main">EnigmaMain</string>
+    <string name="trama">TRAMA</string>
+    <string name="saltos">SALTOS</string>
+    <string name="trampo">TRAMPOSICIÓN</string>
 </resources>

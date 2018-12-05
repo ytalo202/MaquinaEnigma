@@ -1,6 +1,9 @@
 package com.example.yoshino.maquinaenigma;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.support.design.widget.TabLayout;
@@ -11,7 +14,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,9 +27,10 @@ import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class EnigmaMain extends AppCompatActivity {
-
+    Metodos metodos = new Metodos();
     private static final String TAG = "MyActivity";
     ArrayList<String> input = new ArrayList<String>();
     ArrayList<String> rotor1O = new ArrayList<String>();
@@ -32,6 +40,7 @@ public class EnigmaMain extends AppCompatActivity {
     ArrayList<String> rotor3D = new ArrayList<String>();
     ArrayList<String> rotor3O = new ArrayList<String>();
     ArrayList<String> refle = new ArrayList<String>();
+    ArrayList<Diccionario> diccionario = new ArrayList<>();
 
     static final String PREFERENCIAS_COMPARTIDAD= "preferenciaCompartida";
     static final String LIST_INPUT ="listimput";
@@ -53,16 +62,8 @@ public class EnigmaMain extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_enigma_main);
-
-        loadData3R_Destino();
-        loadData2R_Destino();
-        loadData1R_Destino();
-        loadData1R_Origen();
-        loadData2R_Origen();
-        loadData3R_Origen();
-        loadData_Input();
-        loadData_Refle();
-        txtCrip = findViewById(R.id.txtCripto);
+    diccionario = metodos.llenarDiccionario();
+//        txtCrip = findViewById(R.id.txtCripto);
         tabLayout = findViewById(R.id.tablayout_id);
         viewPager = findViewById(R.id.viewpaper_id);
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -144,119 +145,6 @@ public class EnigmaMain extends AppCompatActivity {
         );
 
     }
-
-    public void Cripto(View view) {
-
-
-
-        final Dialog dialog = new Dialog(this);
-        dialog.setTitle("Encriptar");
-        dialog.setContentView(R.layout.input_box);
-
-        TextView txtMesaje = dialog.findViewById(R.id.txtmensaje);
-        txtMesaje.setText("Letra");
-        txtMesaje.setTextColor(Color.parseColor("#ff2222"));
-        final EditText editText = dialog.findViewById(R.id.txtinput);
-
-
-        Button bt = dialog.findViewById(R.id.btdone);
-        bt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-              String  txtC = txtCrip.getText().toString();
-                    String l = editText.getText().toString();
-                    String nuevo = txtC+cripLetra(l);
-
-                Toast.makeText(EnigmaMain.this, "L letra Encriptada es -> "+cripLetra(l), Toast.LENGTH_SHORT).show();
-
-                txtCrip.setText(nuevo);
-
-                dialog.dismiss();
-
-
-            }
-        });
-
-        dialog.show();
-    }
-
-
-
-
-
-
-
-    public String cripLetra(String l){
-
-        int  indexImput =buscarLetra(l,input);
-        String letraR3_D = rotor3D.get(indexImput);
-        Log.v(TAG, "Rotor 3 Destino -> "+letraR3_D);
-
-        int  indexRotor3 =buscarLetra(letraR3_D,rotor3O);
-
-        String letraR2_D = rotor2D.get(indexRotor3);
-        Log.v(TAG, "Rotor 2 Destino -> "+letraR2_D);
-
-
-        int  indexRotor2 =buscarLetra(letraR2_D,rotor2O);
-
-
-        String letraR1_D = rotor1D.get(indexRotor2);
-        Log.v(TAG, "Rotor 2 Destino -> "+letraR1_D);
-
-        int  indexRotor1 =buscarLetra(letraR1_D,rotor1O);
-
-
-        String letraR = refle.get(indexRotor1);
-
-
-
-        Log.v(TAG, "Reflector -> "+letraR);
-
-
-
-        int indexReflejo =  LetraReflejo(indexRotor1,letraR);
-
-
-
-        String letraR1_O_R = rotor1O.get(indexReflejo);
-
-        Log.v(TAG, "Rotor 1 Origen -> "+letraR1_O_R);
-
-        int  indexRotor1_R =buscarLetra(letraR1_O_R,rotor1D);
-
-
-
-        String letraR2_O_R = rotor2O.get(indexRotor1_R);
-
-        Log.v(TAG, "Rotor 2 Origen -> "+letraR2_O_R);
-
-
-        int  indexRotor2_R =buscarLetra(letraR2_O_R,rotor2D);
-
-
-
-        String letraR3_O_R = rotor3O.get(indexRotor2_R);
-
-        Log.v(TAG, "Rotor 3 Origen -> "+letraR3_O_R);
-
-
-        int  indexRotor3_R =buscarLetra(letraR3_O_R,rotor3D);
-
-        String letraImput = input.get(indexRotor3_R);
-
-        return letraImput;
-
-    }
-
-
-
-
-
-
-
-
 
     public void loadData3R_Destino()
     {    SharedPreferences sharedPreferences = getSharedPreferences(PREFERENCIAS_COMPARTIDAD,MODE_PRIVATE);
@@ -370,67 +258,132 @@ public class EnigmaMain extends AppCompatActivity {
     }
 
 
-    public int buscarLetra(String letra,ArrayList<String> avc){
+    String mensajeEncritado;
+    public void btnEncriptar(View view) {
 
-        int indice=0;
-        for(int i=0;i<avc.size();i++) {
-            if (avc.get(i).equals(letra)) {
-                indice = i;
-            }
-        }
+        loadListas();
 
-        Log.v(TAG, "Letra ["+letra+"] -> "+indice);
-        return indice;
-
-    }
+        final Dialog dialog = new Dialog(this);
+        dialog.setTitle("Encriptar");
+        dialog.setContentView(R.layout.dialog_encriptar);
+        final EditText editText = dialog.findViewById(R.id.txtMensaje);
+        mensajeEncritado ="";
 
 
-    public int LetraReflejo(int index,String letra){
+        Button bt = dialog.findViewById(R.id.btnOk);
+       final TextView txtMsCrip = dialog.findViewById(R.id.txtmsEncriptado);
+        RelativeLayout btcopi = dialog.findViewById(R.id.btncopy);
 
 
-        int num =  numLetraRefle(refle.get(index));
-        int indice=0;
-        if (num == 1){
-
-            indice = index;
-
-            Log.v(TAG, "Letra ["+letra+"] no se Repite  (Posicion) -> "+indice);
-
-        }
-        else {
+            bt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (editText.getText().toString().trim().equals("")) {
+                        Toast.makeText(getApplication(), "Ingrese mensaje ha encriptar", Toast.LENGTH_SHORT).show();
+                    } else {
 
 
 
-            for (int i = 0; i < refle.size(); i++) {
+                        String msj = editText.getText().toString();
 
 
-                if (refle.get(i).equals(letra)) {
-                    if (i!=index) {
-                        indice = i;
+                        for (int i = 0; i < msj.length(); i++) {
+                            String letra = String.valueOf(msj.charAt(i));
+                            String letraEncriptada = metodos.cripLetra(letra, input, rotor3O, rotor3D, rotor2O, rotor2D, rotor1O, rotor1D, refle, i);
+                            mensajeEncritado = mensajeEncritado + letraEncriptada;
+                        }
+                        txtMsCrip.setText(mensajeEncritado);
+                        mensajeEncritado= "";
                     }
                 }
-            }
+            });
 
-            Log.v(TAG, "Letra ["+letra+"] se repite en (Posicion) -> "+indice);
-        }
+            btcopi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplication(), "Mensaje Encriptado Copiado", Toast.LENGTH_SHORT).show();
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    clipboard.setText(txtMsCrip.getText().toString());
+                }
+            });
+
+            Button btcancel = dialog.findViewById(R.id.btnCancelar);
+            btcancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
+
+    }
+    public void loadListas(){
+        loadData3R_Destino();
+        loadData2R_Destino();
+        loadData1R_Destino();
+        loadData1R_Origen();
+        loadData2R_Origen();
+        loadData3R_Origen();
+        loadData_Input();
+        loadData_Refle();
+    }
+
+    public void btnDesenciptar(View view) {
 
 
-        return indice;
+
+        loadListas();
+        final Dialog dialog = new Dialog(this);
+        dialog.setTitle("Desenciptar");
+        dialog.setContentView(R.layout.dialog_encriptar);
+        final EditText editText = dialog.findViewById(R.id.txtMensaje);
+        mensajeEncritado = "";
+
+
+        Button bt = dialog.findViewById(R.id.btnOk);
+        final TextView txtMsCrip = dialog.findViewById(R.id.txtmsEncriptado);
+        RelativeLayout btcopi = dialog.findViewById(R.id.btncopy);
+
+
+            bt.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (editText.getText().toString().trim().equals("")) {
+                        Toast.makeText(getApplication(), "Ingrese mensaje ha desencriptar", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String msj = editText.getText().toString();
+                        for (int i = 0; i < msj.length(); i++) {
+                            String letra = String.valueOf(msj.charAt(i));
+                            String letraEncriptada = metodos.cripLetra(letra, input, rotor3O, rotor3D, rotor2O, rotor2D, rotor1O, rotor1D, refle, i);
+                            mensajeEncritado = mensajeEncritado + letraEncriptada;
+                        }
+                        txtMsCrip.setText(mensajeEncritado);
+                        // dialog.dismiss();
+                    }
+                }
+            });
+
+            btcopi.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Toast.makeText(getApplication(), "Mensaje Copiado", Toast.LENGTH_SHORT).show();
+                    ClipboardManager clipboard = (ClipboardManager) getSystemService(CLIPBOARD_SERVICE);
+                    clipboard.setText(txtMsCrip.getText().toString());
+                }
+            });
+
+            Button btcancel = dialog.findViewById(R.id.btnCancelar);
+            btcancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dialog.dismiss();
+                }
+            });
+
+            dialog.show();
 
     }
 
-    public int numLetraRefle(String letra){
-
-        int num=0;
-        for(int i=0;i<refle.size();i++) {
-            if (refle.get(i).equals(letra)) {
-                num++;
-            }
-        }
-
-        // Log.v(TAG, "Letra ["+letra+"] Se Repite -> "+num);
-        return num;
-
-    }
 
 }

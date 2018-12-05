@@ -1,73 +1,211 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:layout_gravity="center"
-    android:gravity="center">
-
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal">
+    android:layout_gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
-
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="ORIGEN"
-            android:textStyle="bold|italic"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:background="#cc3131"
-            android:textColor="#fff"
-
-            />
-        <ListView
-            android:id="@+id/listRotor3O"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-        </ListView>
-
-
+        android:orientation="horizontal">
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:background="#cc3131"
+                android:gravity="center"
+                android:text="ORIGEN"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:textStyle="bold|italic"
+                />
+            <TextView
+                android:layout_weight="1"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:background="#cc3131"
+                android:gravity="center"
+                android:text="DESTINO"
+                android:textColor="#fff"
+                android:textSize="20dp"
+                android:textStyle="bold|italic"
+                />
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_weight="1">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+       >
+        <android.support.design.widget.FloatingActionButton
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:text="DESTINO"
-            android:textStyle="bold|italic"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:background="#cc3131"
-            android:textColor="#fff"
-
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_save_black_24dp"
+            android:layout_marginBottom="100dp"
+            android:layout_marginRight="15dp"
+            android:id="@+id/cbtnr3Save"
             />
 
+        <android.support.design.widget.FloatingActionButton
 
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:background="#fff"
+
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/ic_refresh"
+            android:layout_marginBottom="100dp"
+            android:layout_marginLeft="15dp"
+            android:id="@+id/cbtnr3Refresh"
+            />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+        <ListView
+            android:id="@+id/listRotor3O"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></ListView>
 
         <ListView
             android:id="@+id/listRotor3D"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"></ListView>
+        </LinearLayout>
+    </RelativeLayout>
 
-        </ListView>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3"
+            android:gravity="center"
+            android:layout_gravity="center"
+            android:orientation="vertical"
+            android:layout_margin="4dp"
+            >
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="2dp">
+
+                <TextView
+                    android:id="@+id/btnSaltoO3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:text="@string/saltos"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="2dp"/>
+
+                <TextView
+                    android:layout_marginLeft="2dp"
+                    android:id="@+id/btnSaltoD3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:text="@string/saltos"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btnTramaO3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:text="@string/trama"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="2dp"/>
+
+                <TextView
+                    android:layout_marginLeft="2dp"
+                    android:id="@+id/btnTramaD3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginBottom="2dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:text="@string/trama"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/btnTranspO3"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_weight="1"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:text="@string/trampo"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    android:layout_marginRight="2dp"/>
+
+                <TextView
+                    android:layout_marginLeft="2dp"
+                    android:id="@+id/btnTranspD3"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="40dp"
+                    android:layout_marginTop="2dp"
+                    android:background="@drawable/textview_border"
+                    android:gravity="center"
+                    android:text="@string/trampo"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="18dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
-</LinearLayout>
 </LinearLayout>
